@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  ELASTIC_APM_ENVIRONMENT: development
+  ELASTIC_APM_SERVER_URL: http://apm-server:8200
+  ELASTIC_APM_SERVICE_NAME: api
+  PAGE_SIZE: "10"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: api-configmap

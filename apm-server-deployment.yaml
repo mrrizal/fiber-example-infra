@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o ../fiber-example-infra
+    kompose.version: 1.24.0 (4a2a0458)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: apm-server
+  name: apm-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: apm-server
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o ../fiber-example-infra
+        kompose.version: 1.24.0 (4a2a0458)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/development: "true"
+        io.kompose.service: apm-server
+    spec:
+      containers:
+        - args:
+            - apm-server
+            - -e
+            - -E
+            - apm-server.rum.enabled=true
+            - -E
+            - apm-server.rum.allow_origins=[*]
+            - -E
+            - setup.kibana.host=kibana:5601
+            - -E
+            - setup.template.settings.index.number_of_replicas=0
+            - -E
+            - apm-server.kibana.enabled=true
+            - -E
+            - apm-server.kibana.host=kibana:5601
+            - -E
+            - output.elasticsearch.hosts=[elasticsearch:9200]
+          image: docker.elastic.co/apm/apm-server:7.8.0
+          livenessProbe:
+            exec:
+              command:
+                - curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8200/
+            failureThreshold: 12
+            periodSeconds: 10
+          name: apm-server
+          ports:
+            - containerPort: 8200
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+                - CHOWN
+                - DAC_OVERRIDE
+                - SETGID
+                - SETUID
+              drop:
+                - ALL
+      restartPolicy: Always
+status: {}
