@@ -5,11 +5,6 @@ k create ns development
 
 k config set-context --current --namespace development
 
-k apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
-k apply -f kubernetes-dashboard/service-account.yaml
-k apply -f kubernetes-dashboard/role.yaml
-
-
 k apply -f development-networkpolicy.yaml
 
 k apply -f postgres-secret.yaml
@@ -31,5 +26,10 @@ k apply -f api-configmap.yaml
 k apply -f api-secret.yaml
 k apply -f api-deployment.yaml
 k apply -f api-service.yaml
+k apply -f api-autoscale.yaml
 
 k config set-context --current --namespace default
+
+k apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
+k apply -f kubernetes-dashboard/service-account.yaml
+k apply -f kubernetes-dashboard/role.yaml
