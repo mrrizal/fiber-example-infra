@@ -40,12 +40,5 @@ spec:
           name: kibana
           ports:
             - containerPort: 5601
-          resources:
-            requests:
-              memory: "200Mi"
-              cpu: "50m"
-            limits:
-              memory: "550Mi"
-              cpu: "150m"
       restartPolicy: Always
 status: {}

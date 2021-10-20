@@ -1,5 +1,5 @@
 #/bin/bash
-alias k="sudo k3s kubectl"
+alias k="kubectl"
 
 k create ns development
 

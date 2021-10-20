@@ -42,5 +42,11 @@ spec:
             limits:
               memory: "100Mi"
               cpu: "300m"
+          startupProbe:
+            httpGet:
+              path: /api/v1/book/
+              port: 3000
+            initialDelaySeconds: 3
+            periodSeconds: 3
       restartPolicy: Always
 status: {}
